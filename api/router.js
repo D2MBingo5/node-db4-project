@@ -10,8 +10,4 @@ router.get('/:recipe_id', (req, res, next) => {
         .catch(next)
 })
 
-router.use('*', (req, res, next) => { // eslint-disable-line
-    res.json({ api: 'up' })
-})
-
 module.exports = router
