@@ -2,9 +2,14 @@ const db = require('../data/db-config')
 
 async function getRecipeById(recipe_id) {
     const recipeRows = await db('recipes as r')
-        .leftJoin('steps as st', 'r.recipe_id', 'st.recipe_id')
+        .leftJoin('steps as st', 
+        'r.recipe_id', 
+        'st.recipe_id')
         .where('r.recipe_id', recipe_id)
-        .select('st.*', 'r.recipe_name', 'r.recipe_id', 'r.created_at')
+        .select('st.*', 
+        'r.recipe_name', 
+        'r.recipe_id', 
+        'r.created_at')
         .orderBy('st.step_number')
 
     const result = {
@@ -19,10 +24,24 @@ async function getRecipeById(recipe_id) {
             result.steps.push({
                 step_id: row.step_id,
                 step_number: row.step_number,
-                step_instructions: row.step_instructions
+                step_instructions: row.step_instructions,
+                ingredients: []
             })
         }
     })
+
+    // const stepRows = await db('steps as st')
+    //     .leftJoin('ingredients as i', 
+    //     'step_ingredients as sting')
+    //     .where('st.step_id', step_id)
+    //     .select('i.*',
+    //     'sting.quantity')
+
+    // stepRows.forEach(row => {
+    //     if (row.ingredient_id) {
+    //         // scope issue?
+    //     }
+    // })
     
     return result
 }
